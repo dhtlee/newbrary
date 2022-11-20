@@ -1,10 +1,12 @@
 import express from 'express';
 import expressLayouts from 'express-ejs-layouts';
+import bodyParser from 'body-parser';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import mongoose from 'mongoose';
 
-import indexRoutes from './routes/index';
+import indexRouter from './routes/index';
+import authorRouter from './routes/authors';
 
 import dotenv from 'dotenv';
 if (process.env.NODE_ENV !== 'prod') {
@@ -23,9 +25,9 @@ app.set('layout extractScripts', true)
 
 app.use(expressLayouts);
 app.use(express.static('public'));
+app.use(bodyParser.urlencoded({ limit: '10mb', extended: false }));
 
-console.log('before mongoose connection', process.env.DATABASE_URL);
-const db = mongoose.connect(process.env.DATABASE_URL)
+mongoose.connect(process.env.DATABASE_URL)
   .then(() => {
     console.log('Connected to Mongoose!');
   })
@@ -33,6 +35,12 @@ const db = mongoose.connect(process.env.DATABASE_URL)
     console.log(error)
   });
 
-app.use('/', indexRoutes);
+app.use(function (req, res, next) {
+  res.locals.title = 'Newbrary';
+  next();
+});
+
+app.use('/', indexRouter);
+app.use('/authors', authorRouter);
 
 app.listen(process.env.PORT || 3000);
