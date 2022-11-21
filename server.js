@@ -7,6 +7,7 @@ import mongoose from 'mongoose';
 
 import indexRouter from './routes/index';
 import authorRouter from './routes/authors';
+import bookRouter from './routes/books';
 
 import dotenv from 'dotenv';
 if (process.env.NODE_ENV !== 'prod') {
@@ -42,5 +43,6 @@ app.use(function (req, res, next) {
 
 app.use('/', indexRouter);
 app.use('/authors', authorRouter);
+app.use('/books', bookRouter);
 
 app.listen(process.env.PORT || 3000);
