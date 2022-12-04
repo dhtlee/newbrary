@@ -37,7 +37,6 @@ router.get('/new', async (req, res) => {
 
 // create book - api
 router.post('/', async (req, res) => {
-  console.log('req.body', req.body);
   const book = new Book({
     title: req.body.title,
     author: req.body.author,
@@ -50,20 +49,11 @@ router.post('/', async (req, res) => {
 
   try {
     const newBook = await book.save();
-    // res.redirect(`/books/${newBook.id}`);
     res.redirect('/books');
   } catch {
     renderNewPage(res, book, true);
   }
 });
-
-// function removeBookCover(fileName) {
-//   fs.unlink(path.join(uploadPath, fileName), err => {
-//     if (err) {
-//       console.error(err);
-//     }
-//   });
-// }
 
 async function renderNewPage(res, book, hasError = false) {
   try {

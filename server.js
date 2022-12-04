@@ -1,6 +1,7 @@
 import express from 'express';
 import expressLayouts from 'express-ejs-layouts';
 import bodyParser from 'body-parser';
+import methodOverride from 'method-override';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import mongoose from 'mongoose';
@@ -21,19 +22,20 @@ const app = express();
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
-app.set('layout extractStyles', true)
-app.set('layout extractScripts', true)
+app.set('layout extractStyles', true);
+app.set('layout extractScripts', true);
 
 app.use(expressLayouts);
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ limit: '10mb', extended: false }));
+app.use(methodOverride('_method'));
 
 mongoose.connect(process.env.DATABASE_URL)
   .then(() => {
     console.log('Connected to Mongoose!');
   })
   .catch(error => {
-    console.log(error)
+    console.log(error);
   });
 
 app.use(function (req, res, next) {
