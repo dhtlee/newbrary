@@ -69,7 +69,7 @@ router.get('/:id', async (req, res) => {
 // edit book route - FE
 router.get('/:id/edit', async (req, res) => {
   try {
-    const book = await Book.findById(req.params.id);
+    const book = await Book.findById(req.params.id).populate('author');
     renderEditPage(res, book);
   } catch {
     res.redirect('/');
