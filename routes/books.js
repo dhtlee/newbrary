@@ -37,6 +37,7 @@ router.get('/new', async (req, res) => {
 
 // create book - api
 router.post('/', async (req, res) => {
+  console.log('req', req.body);
   const book = new Book({
     title: req.body.title,
     author: req.body.author,
@@ -147,7 +148,7 @@ async function renderFormPage(res, book, form, hasError = false) {
 }
 
 function saveCover(book, coverEncoded) {
-  if (coverEncoded == null) return;
+  if (coverEncoded == null || coverEncoded === '') return;
   const cover = JSON.parse(coverEncoded);
   if (cover != null && imageMimeTypes.includes(cover.type)) {
     book.coverImage = new Buffer.from(cover.data, 'base64');
