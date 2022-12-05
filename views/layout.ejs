@@ -14,14 +14,18 @@
   <script defer src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
   <script defer src="/javascripts/fileUpload.js"></script>
   <title><%= title %></title>
+  <link rel="stylesheet" href="/stylesheets/main.css">
   <%- style %>
+  <%- script %>
 </head>
 
 <body>
-  <%- include('common/header') %>
-  <%- include('common/errorMessage.ejs') %>
-  <%- body %>
-  <%- script %>
+  <div class="container">
+    <%- include('common/header') %>
+    <div class="inner-container">
+      <%- include('common/errorMessage.ejs') %>
+      <%- body %>
+    </div>
+  </div>
 </body>
-
 </html>
